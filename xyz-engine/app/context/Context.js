@@ -9,10 +9,13 @@ export const useMyContext = () => {
 
 export const MyContextProvider = ({ children }) => {
   const [myState, setMyState] = useState(true);
+  const [chartData, setChartData] = useState([]);
 
   const contextValue = {
     myState,
     setMyState,
+    chartData,
+    setChartData,
   };
 
   return (

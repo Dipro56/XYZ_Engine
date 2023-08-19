@@ -1,19 +1,76 @@
 // components/Table.js
 import React from 'react';
-import { PDFExport } from '@react-pdf/renderer';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { useRouter } from 'next/navigation';
+
 
 const Table = (props) => {
   let tableData = props.data;
 
-  let pdfExportComponent;
+  let Router = useRouter()
 
-  const handleDownloadPDF = () => {
-    pdfExportComponent.save();
+  const clearTable = () => {
+    localStorage.removeItem('tableData');
+    Router.push('/')
   };
+
+  const generatePdf = (tableData) => {
+    const doc = new jsPDF();
+
+    doc.text('Table Data as PDF', 10, 10);
+
+    const exportData = tableData.map((item) => [
+      item.projectName,
+      item.client,
+      item.contractor,
+      item.maxX,
+      item.minX,
+      item.maxY,
+      item.minY,
+      item.maxZ,
+      item.minZ,
+      item.description,
+    ]);
+
+    doc.autoTable({
+      head: [
+        [
+          'Project',
+          'Client',
+          'Contractor',
+          'Max X',
+          'Min X',
+          'Max Y',
+          'Min Y',
+          'Max Z',
+          'Min Z',
+          'Description',
+        ],
+      ],
+      body: exportData,
+    });
+
+    doc.save('table_data.pdf');
+  };
+
   return (
     <div className="w-full overflow-x-auto p-9">
-      <div className='flex items-center '>
-         <button className='bg-blue-500 p-3 border-rounded' onClick={handleDownloadPDF}>Download PDF</button>
+      <div className="flex justify-end my-3">
+        <button
+          onClick={clearTable}
+          class="bg-red-500 hover:bg-red-700 text-white font-normal py-2 px-4 rounded mr-3"
+        >
+          Clear all data
+        </button>
+        <button
+          onClick={() => {
+            generatePdf(tableData)
+          }}
+          class="bg-blue-500 hover:bg-blue-700 text-white font-normal py-2 px-4 rounded"
+        >
+          Download PDF
+        </button>
       </div>
 
       <table className="min-w-full divide-y divide-gray-200">

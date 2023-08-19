@@ -1,5 +1,5 @@
 import Navbar from './component/navbar/Navbar';
-import { Context, MyContextProvider } from './context/Context';
+import { MyContextProvider } from './context/Context';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
@@ -11,7 +11,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const showInitialInfoCard = true;
   return (
     <html lang="en">
       <MyContextProvider>

@@ -37,12 +37,11 @@ const Navbar = () => {
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white ">
             <li>
-              <Link href={'/'}>
-               Home</Link>
-
+              <Link href={'/'}>Home</Link>
             </li>
-              <Link href={'/table'}>
-               Data Table</Link>
+            <li>
+              <Link href={'/table-page'}>Data Table</Link>
+            </li>
           </ul>
         </div>
       </div>

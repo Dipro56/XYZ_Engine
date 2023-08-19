@@ -3,8 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import { useMyContext } from '@/app/context/Context';
+import { useRouter } from 'next/navigation';
 
 const FileUploadCard = () => {
+
+  let router = useRouter()
   const [csvData, setCsvData] = useState([]);
   const [selectedFile, setSelectedFile] = useState();
 
@@ -19,7 +22,7 @@ const FileUploadCard = () => {
   const [maxZ, setMaxZ] = useState();
   const [minZ, setMinZ] = useState();
 
-     const { myState, setMyState } = useMyContext();
+  const { setMyState, setChartData } = useMyContext();
 
   const handleFileChange = (event) => {
     console.log('event.target.files[0]: ', event.target.files[0]);
@@ -40,12 +43,11 @@ const FileUploadCard = () => {
     setClient(data?.client);
     setContractor(data?.contractor);
     setDescription(data?.description);
-    console.log('data: ', data);
+
   }, []);
 
   useEffect(() => {
-    console.log('selectedFile: ', selectedFile);
-    console.log('csvData: ', csvData);
+    setChartData(csvData);
 
     const properties = ['X', 'Y', 'Z'];
 
@@ -134,7 +136,8 @@ const FileUploadCard = () => {
         let newTableData = [data];
         localStorage.setItem('tableData', JSON.stringify(newTableData));
       }
-      setMyState(true)
+      setMyState(true);
+      router.push('/table-page')
     } else {
       alert('Fill all field');
     }
